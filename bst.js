@@ -10,6 +10,24 @@ class Tree {
     constructor(array) {
         this.root = buildTree(array);
     }
+
+    insert(value, node = this.root) {
+        if (node === null) return new Node(value);
+
+        if (value < node.data) {
+            if (node.left === null) {
+                node.left = new Node(value);
+            } else {
+                this.insert(value, node.left);
+            }
+        } else if (value > node.data) {
+            if (node.right === null) {
+                node.right = new Node(value);
+            } else {
+                this.insert(value, node.right);
+            }
+        }
+    }
 }
 
 function sort(array) {
@@ -48,7 +66,13 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
+
+
 let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-console.log(sort(testArray));
 let tree = new Tree(testArray);
+prettyPrint(tree.root);
+tree.insert(0);
+tree.insert(25);
+tree.insert(100);
+console.log("After insertions:");
 prettyPrint(tree.root);
