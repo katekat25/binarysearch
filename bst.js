@@ -11,6 +11,14 @@ class Tree {
         this.root = buildTree(array);
     }
 
+    getSuccessor(current) {
+        current = current.right;
+        while (current !== null && current.left !== null) {
+            current = current.left;
+        }
+        return current;
+    }
+
     insert(value, node = this.root) {
         if (node === null) return new Node(value);
 
@@ -27,6 +35,31 @@ class Tree {
                 this.insert(value, node.right);
             }
         }
+        
+        return node;
+    }
+
+    deleteItem(value, node = this.root) {
+        if (node === null) return;
+
+        if (value < node.data) {
+            node.left = this.deleteItem(value, node.left);
+        } else if (value > node.data) {
+            node.right = this.deleteItem(value, node.right);
+        } else {
+            if (node.left === null) {
+                return node.right;
+            }
+            if (node.right === null) {
+                return node.left;
+            }
+
+            let successor = this.getSuccessor(node);
+            node.data = successor.data;
+            node.right = this.deleteItem(successor.data, node.right);
+        }
+
+        return node;
     }
 }
 
@@ -74,5 +107,7 @@ prettyPrint(tree.root);
 tree.insert(0);
 tree.insert(25);
 tree.insert(100);
-console.log("After insertions:");
+tree.insert(68);
+tree.deleteItem(8);
+console.log("After mods:");
 prettyPrint(tree.root);
