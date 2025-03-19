@@ -35,7 +35,7 @@ class Tree {
                 this.insert(value, node.right);
             }
         }
-        
+
         return node;
     }
 
@@ -60,6 +60,16 @@ class Tree {
         }
 
         return node;
+    }
+
+    find(value, node = this.root) {
+        if (node === null) return null;
+
+        if (value < node.data) {
+            return this.find(value, node.left);
+        } else if (value > node.data) {
+            return this.find(value, node.right);
+        } else return node;
     }
 }
 
