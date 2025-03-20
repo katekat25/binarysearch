@@ -109,6 +109,19 @@ class Tree {
 
         return Math.max(leftHeight, rightHeight) + 1;
     }
+
+    depth(node) {
+        if (node === null) return -1;
+
+        let distance = -1;
+        let currentNode = this.root;
+
+        if ((currentNode == node) ||
+            (distance = this.depth(node.left)) >= 0 ||
+            (distance = this.depth(node.right) >= 0))
+            return distance + 1;
+        return distance;
+    }
 }
 
 function sort(array) {
