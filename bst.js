@@ -1,8 +1,8 @@
 class Node {
-    constructor(data, left = null, right = null) {
+    constructor(data) {
         this.data = data;
-        this.left = left;
-        this.right = right;
+        this.left = null;
+        this.right = null;
     }
 }
 
@@ -33,7 +33,7 @@ class Tree {
     }
 
     deleteItem(value, node = this.root) {
-        if (node === null) return;
+        if (node === null) return null;
 
         if (value < node.data) {
             node.left = this.deleteItem(value, node.left);
@@ -81,24 +81,33 @@ class Tree {
             throw new Error("Must provide a callback function.");
         }
         if (node === null) return;
-    
+
         if (type === "pre") callback(node);
         this.traverse(type, callback, node.left);
         if (type === "in") callback(node);
         this.traverse(type, callback, node.right);
         if (type === "post") callback(node);
     }
-    
+
     inOrder(callback) {
         this.traverse("in", callback);
     }
-    
+
     preOrder(callback) {
         this.traverse("pre", callback);
     }
-    
+
     postOrder(callback) {
         this.traverse("post", callback);
+    }
+
+    height(node) {
+        if (node === null) return -1;
+
+        let leftHeight = this.height(node.left);
+        let rightHeight = this.height(node.right);
+
+        return Math.max(leftHeight, rightHeight) + 1;
     }
 }
 
