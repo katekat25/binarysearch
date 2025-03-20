@@ -11,9 +11,10 @@ class Tree {
         this.root = buildTree(array);
     }
 
-    getSuccessor(current) {
-        current = current.right;
-        while (current !== null && current.left !== null) {
+    getSuccessor(node) {
+        if (node.right === null) return null;
+        let current = node.right;
+        while (current.left !== null) {
             current = current.left;
         }
         return current;
@@ -23,17 +24,9 @@ class Tree {
         if (node === null) return new Node(value);
 
         if (value < node.data) {
-            if (node.left === null) {
-                node.left = new Node(value);
-            } else {
-                this.insert(value, node.left);
-            }
+            node.left = this.insert(value, node.left);
         } else if (value > node.data) {
-            if (node.right === null) {
-                node.right = new Node(value);
-            } else {
-                this.insert(value, node.right);
-            }
+            node.right = this.insert(value, node.right);
         }
 
         return node;
@@ -47,12 +40,8 @@ class Tree {
         } else if (value > node.data) {
             node.right = this.deleteItem(value, node.right);
         } else {
-            if (node.left === null) {
-                return node.right;
-            }
-            if (node.right === null) {
-                return node.left;
-            }
+            if (node.left === null) return node.right;
+            if (node.right === null) return node.left;
 
             let successor = this.getSuccessor(node);
             node.data = successor.data;
@@ -87,37 +76,29 @@ class Tree {
         }
     }
 
-    inOrder(callback, node = this.root) {
-        if (callback === undefined) {
+    traverse(type, callback, node = this.root) {
+        if (typeof callback !== "function") {
             throw new Error("Must provide a callback function.");
         }
         if (node === null) return;
-
-        this.inOrder(node.left);
-        callback(node);
-        this.inOrder(node.right);
+    
+        if (type === "pre") callback(node);
+        this.traverse(type, callback, node.left);
+        if (type === "in") callback(node);
+        this.traverse(type, callback, node.right);
+        if (type === "post") callback(node);
     }
-
-    preOrder(callback, node = this.root) {
-        if (callback === undefined) {
-            throw new Error("Must provide a callback function.");
-        }
-        if (node === null) return;
-
-        callback(node);
-        this.preOrder(node.left);
-        this.preOrder(node.right);
+    
+    inOrder(callback) {
+        this.traverse("in", callback);
     }
-
-    postOrder(callback, node = this.root) {
-        if (callback === undefined) {
-            throw new Error("Must provide a callback function.");
-        }
-        if (node === null) return;
-        
-        this.postOrder(node.left);
-        this.postOrder(node.left);
-        callback(node);
+    
+    preOrder(callback) {
+        this.traverse("pre", callback);
+    }
+    
+    postOrder(callback) {
+        this.traverse("post", callback);
     }
 }
 
