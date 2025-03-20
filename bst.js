@@ -86,6 +86,39 @@ class Tree {
             if (current.right !== null) queue.push(current.right);
         }
     }
+
+    inOrder(callback, node = this.root) {
+        if (callback === undefined) {
+            throw new Error("Must provide a callback function.");
+        }
+        if (node === null) return;
+
+        this.inOrder(node.left);
+        callback(node);
+        this.inOrder(node.right);
+    }
+
+    preOrder(callback, node = this.root) {
+        if (callback === undefined) {
+            throw new Error("Must provide a callback function.");
+        }
+        if (node === null) return;
+
+        callback(node);
+        this.preOrder(node.left);
+        this.preOrder(node.right);
+    }
+
+    postOrder(callback, node = this.root) {
+        if (callback === undefined) {
+            throw new Error("Must provide a callback function.");
+        }
+        if (node === null) return;
+        
+        this.postOrder(node.left);
+        this.postOrder(node.left);
+        callback(node);
+    }
 }
 
 function sort(array) {
@@ -137,3 +170,4 @@ tree.deleteItem(8);
 console.log("After mods:");
 prettyPrint(tree.root);
 console.log(tree.find(2));
+tree.levelOrder(node => console.log(node.data));
