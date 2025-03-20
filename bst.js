@@ -71,6 +71,21 @@ class Tree {
             return this.find(value, node.right);
         } else return node;
     }
+
+    levelOrder(callback) {
+        if (callback === undefined) {
+            throw new Error("Must provide a callback function.");
+        }
+        if (this.root === null) return;
+        let queue = [this.root];
+
+        while (queue.length > 0) {
+            let current = queue.shift();
+            callback(current);
+            if (current.left !== null) queue.push(current.left);
+            if (current.right !== null) queue.push(current.right);
+        }
+    }
 }
 
 function sort(array) {
@@ -121,3 +136,4 @@ tree.insert(68);
 tree.deleteItem(8);
 console.log("After mods:");
 prettyPrint(tree.root);
+console.log(tree.find(2));
