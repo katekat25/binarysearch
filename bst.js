@@ -175,18 +175,45 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
     }
 };
 
+function randomArray() {
+    let arr = [];
+    for (let i = 0; i < 100; i++) {
+        let x = Math.floor(Math.random() * 100);
+        arr.push(x);
+    }
+    return arr;
+}
 
-
-let testArray = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324];
-let tree = new Tree(testArray);
-prettyPrint(tree.root);
-tree.insert(0);
-tree.insert(25);
-tree.insert(100);
-tree.insert(68);
-tree.deleteItem(8);
-console.log("After mods:");
-prettyPrint(tree.root);
-console.log(tree.find(2));
-tree.levelOrder(node => console.log(node.data));
+let tree = new Tree(randomArray());
 console.log(tree.isBalanced());
+let array = [];
+tree.levelOrder(node => array.push(node.data));
+console.log(array);
+array = [];
+tree.preOrder(node => array.push(node.data));
+console.log(array);
+array = [];
+tree.inOrder(node => array.push(node.data));
+console.log(array);
+array = [];
+tree.postOrder(node => array.push(node.data));
+console.log(array);
+tree.insert(101);
+tree.insert(200);
+tree.insert(300);
+tree.insert(404);
+console.log(tree.isBalanced());
+tree.rebalance();
+console.log(tree.isBalanced());
+array = [];
+tree.levelOrder(node => array.push(node.data));
+console.log(array);
+array = [];
+tree.preOrder(node => array.push(node.data));
+console.log(array);
+array = [];
+tree.inOrder(node => array.push(node.data));
+console.log(array);
+array = [];
+tree.postOrder(node => array.push(node.data));
+console.log(array);
