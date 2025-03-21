@@ -131,6 +131,12 @@ class Tree {
     
         return Math.abs(leftHeight - rightHeight) <= 1;
     }
+
+    rebalance() {
+        let newArray = [];
+        this.inOrder(node => newArray.push(node.data));
+        this.root = buildTree(newArray);
+    }
 }
 
 function sort(array) {
